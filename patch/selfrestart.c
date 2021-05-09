@@ -50,6 +50,8 @@ char *get_dwm_path()
     return path;
 }
 
+char *selfrestartpath = NULL;
+
 /**
  * self-restart
  *
@@ -58,7 +60,9 @@ char *get_dwm_path()
  */
 void self_restart(const Arg *arg)
 {
-    char *const argv[] = {get_dwm_path(), NULL};
+    printf("SELF_RESTART");
+    fflush(stdout);
+    char *const argv[] = {selfrestartpath, NULL};
 
     if (argv[0] == NULL) {
         return;

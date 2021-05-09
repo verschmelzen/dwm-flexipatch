@@ -4797,6 +4797,9 @@ zoom(const Arg *arg)
 int
 main(int argc, char *argv[])
 {
+	#if SELFRESTART_PATCH
+	selfrestartpath = get_dwm_path();
+	#endif
 	#if CMDCUSTOMIZE_PATCH
 	for (int i=1;i<argc;i+=1)
 		if (!strcmp("-v", argv[i]))
