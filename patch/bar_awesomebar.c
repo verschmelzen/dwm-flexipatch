@@ -9,6 +9,7 @@ draw_awesomebar(Bar *bar, BarArg *a)
 {
 	int n = 0, scm, remainder = 0, tabw, pad;
 	unsigned int i;
+	int	plw = drw->fonts->h / 2 + 1;
 	#if BAR_TITLE_LEFT_PAD_PATCH && BAR_TITLE_RIGHT_PAD_PATCH
 	int x = a->x + lrpad / 2, w = a->w - lrpad;
 	#elif BAR_TITLE_LEFT_PAD_PATCH
@@ -16,7 +17,7 @@ draw_awesomebar(Bar *bar, BarArg *a)
 	#elif BAR_TITLE_RIGHT_PAD_PATCH
 	int x = a->x, w = a->w - lrpad / 2;
 	#else
-	int x = a->x, w = a->w;
+	int x = a->x, w = a->w - plw;
 	#endif // BAR_TITLE_LEFT_PAD_PATCH | BAR_TITLE_RIGHT_PAD_PATCH
 
 	Client *c;
@@ -26,7 +27,7 @@ draw_awesomebar(Bar *bar, BarArg *a)
 
 	if (n > 0) {
 		remainder = w % n;
-		tabw = w / n;
+		tabw = w / n - plw;
 		for (i = 0, c = bar->mon->clients; c; c = c->next, i++) {
 			if (!ISVISIBLE(c))
 				continue;
@@ -37,6 +38,7 @@ draw_awesomebar(Bar *bar, BarArg *a)
 			else
 				scm = SchemeTitleNorm;
 
+
 			pad = lrpad / 2;
 			#if BAR_CENTEREDWINDOWNAME_PATCH
 			if (TEXTW(c->name) < tabw)
@@ -44,9 +46,14 @@ draw_awesomebar(Bar *bar, BarArg *a)
 			#endif // BAR_CENTEREDWINDOWNAME_PATCH
 
 			drw_setscheme(drw, scheme[scm]);
-			drw_text(drw, x, a->y, tabw + (i < remainder ? 1 : 0), a->h, pad, c->name, 0, False);
-			drawstateindicator(c->mon, c, 1, x, a->y, tabw + (i < remainder ? 1 : 0), a->h, 0, 0, c->isfixed);
-			x += tabw + (i < remainder ? 1 : 0);
+			drw_text(drw, x + plw, a->y, tabw + (i < remainder ? 1 : 0), a->h, pad, c->name, 0, False);
+			drawstateindicator(c->mon, c, 1, x + plw, a->y, tabw + (i < remainder ? 1 : 0), a->h, 0, 0, c->isfixed);
+			if (bar->mon->sel == c) {
+				drw_setscheme(drw, scheme[SchemeHid]);
+				drw_arrow(drw, x, a->y, plw, a->h, 0, 1);
+				drw_arrow(drw, x + tabw + plw, a->y, plw, a->h, 1, 1);
+			}
+			x += tabw + (i < remainder ? 1 : 0) + plw;
 		}
 	}
 	return n;

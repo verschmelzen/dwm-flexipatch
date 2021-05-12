@@ -218,6 +218,11 @@
  */
 #define BAR_ALTTAGSDECORATION_PATCH 0
 
+/* All floating windows are centered, like the center patch, but without a rule.
+ * https://dwm.suckless.org/patches/alwayscenter/
+ */
+#define ALWAYSCENTER_PATCH 0
+
 /* This patch enables dwm to manage external status bars such as lemonbar and polybar.
  * dwm treats the external bar as it would its own, so all regular dwm commands such as
  * togglebar affect the external bar in the same way.
