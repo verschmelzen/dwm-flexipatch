@@ -615,6 +615,7 @@ static const Layout layouts[] = {
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	#if TILE_LAYOUT
+	{ "=[]",      reversetile },    /* first entry is default */
 	{ "[]=",      tile },    /* first entry is default */
 	#endif
 	{ "><>",      NULL },    /* no layout function means floating behavior */
@@ -951,8 +952,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_F5,         xrdb,                   {.v = NULL } },
 	#endif // XRDB_PATCH
 	{ MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,                       XK_t,          setlayout,              {.v = &layouts[1]} },
+	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[2]} },
+	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[3]} },
 	#if COLUMNS_LAYOUT
 	{ MODKEY,                       XK_c,          setlayout,              {.v = &layouts[3]} },
 	#endif // COLUMNS_LAYOUT
